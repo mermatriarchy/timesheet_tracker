@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TimesheetTable from './TimesheetTable';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function App() {
   const [entries, setEntries] = useState([]);
