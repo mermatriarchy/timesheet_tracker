@@ -21,6 +21,10 @@ class Api::V1::TimesheetEntriesController < Api::V1::BaseController
     respond_with entry, json: entry
   end
 
+  def formatted_date(val)
+    date = Date.strptime(val, "%m/%d/%y") if val.present?
+  end
+
   private
 
   def entry_params
