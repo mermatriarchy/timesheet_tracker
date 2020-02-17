@@ -3,20 +3,25 @@ class Api::V1::TimesheetEntriesController < Api::V1::BaseController
     sort_by_project = ActiveModel::Type::Boolean.new.cast(params[:sort_by_project])
 
     if sort_by_project
-      entries = TimesheetEntry.select(:client_name, :project_name, :billable, "SUM(billable_rate * hours) AS billable_amount", "SUM(hours) AS total_hours")
+      entries = TimesheetEntry.select(:client_name, :project_name, :billable, "SUM(billable_rate * hours) AS billable_amount", "SUM(hours) AS total_project_hours")
                               .group(:project_name)
       
       entries.each do |entry|
         entry["billable_amount"] = (entry["billable_amount"]).round(2)
-        entry["total_hours"] = (entry["total_hours"]).round(2)
+        entry["total_project_hours"] = (entry["total_project_hours"]).round(2)
       end
-
+      
       entries
     else
       entries = TimesheetEntry.order(date: :ASC)
     end
 
-    respond_with entries, json: entries
+    grand_totals = { total_billable_amount: TimesheetEntry.total_billable_amount, 
+                     total_hours:  TimesheetEntry.total_hours }
+
+    data = { grand_totals: grand_totals, sort_by_project: sort_by_project, entries: entries }
+
+    respond_with data, json: data
   end
   
   def show
