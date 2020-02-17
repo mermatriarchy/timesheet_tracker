@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import TimesheetEntry from './TimesheetEntry';
+import axios from 'axios';
 
-class TimesheetTable extends Component {
-    render(){
+export default function TimesheetTable(props) {
         return(
-            <div>
-              <h2>this is where the table will go!</h2>
-              <TimesheetEntry/>
-            </div>
+            props.entries.map((entry) => {
+                return(
+                  <div key={entry.id}>
+                   <TimesheetEntry entry={entry}/>
+                  </div>
+                )
+            })
         )
-    }
 }
-
-export default TimesheetTable;

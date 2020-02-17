@@ -1,11 +1,9 @@
 import React from 'react';
 
-class TimesheetEntry extends React.Component {
-    render(){
+export default function TimesheetEntry(props) {
         return(
-            <div>Hi an entry!!</div>
+            <div>
+                <span>{props.entry.project_name}</span>
+            </div>
         )
-    }
 }
-
-export default TimesheetEntry;
