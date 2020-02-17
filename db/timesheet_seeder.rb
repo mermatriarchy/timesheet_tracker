@@ -8,7 +8,7 @@ class TimesheetSeeder
       entry = TimesheetEntry.create!(date: Date.strptime(row["Date"], '%m/%d/%y'),
                                      client_name: row["Client"],
                                      project_name: row["Project"],
-                                     project_code: row["Code"],
+                                     project_code: row["Project Code"],
                                      hours: row["Hours"].to_f,
                                      billable: row["Billable?"] == "Yes" ? true : false,
                                      contributor_first_name: row["First Name"],
