@@ -1,6 +1,6 @@
 class Api::V1::TimesheetEntriesController < Api::V1::BaseController
   def index
-    sort_by_project = params[:sort_by_project].present?
+    sort_by_project = ActiveModel::Type::Boolean.new.cast(params[:sort_by_project])
 
     if sort_by_project
       entries = TimesheetEntry.select(:client_name, :project_name, :billable, "SUM(billable_rate * hours) AS billable_amount", "SUM(hours) AS total_hours")
