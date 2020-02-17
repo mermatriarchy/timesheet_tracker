@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2020-02-16
+  client_name: MyString
+  project_name: MyString
+  project_code: MyString
+  hours: 1.5
+  billable: false
+  contributor_first_name: MyString
+  contributor_last_name: MyString
+  billable_rate: 1
+
+two:
+  date: 2020-02-16
+  client_name: MyString
+  project_name: MyString
+  project_code: MyString
+  hours: 1.5
+  billable: false
+  contributor_first_name: MyString
+  contributor_last_name: MyString
+  billable_rate: 1
