@@ -28,6 +28,8 @@ export default function App() {
     fetchData();
   }, []);
 
+  const formattedBillableAmount = new Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(totalBillableAmount);
+
   return(
     <Container>
         <h1>Timesheet Tracker</h1>
@@ -37,7 +39,7 @@ export default function App() {
           <>
           <Row>
             <Col><h2>Hours Tracked<br/>{totalHours}</h2></Col>
-            <Col><h2>Billable Amount<br/>{totalBillableAmount}</h2></Col>
+            <Col><h2>Billable Amount<br/>{formattedBillableAmount}</h2></Col>
           </Row>
           <TimesheetTable entries={entries}/>
           <Row>
@@ -45,6 +47,7 @@ export default function App() {
           </Row>
           </>
         )}
+        <footer>Submission by Hailey Miller</footer>
     </Container>
   )
     

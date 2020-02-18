@@ -17,7 +17,7 @@ export default function NewEntry(props) {
               <Form.Control placeholder="Project code" />
             </Col>
           </Form.Row>
-         <Form.Row>
+          <Form.Row>
             <Col>
               <Form.Control placeholder="Contributor first name" />
             </Col>
