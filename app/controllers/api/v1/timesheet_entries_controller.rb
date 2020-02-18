@@ -1,4 +1,6 @@
 class Api::V1::TimesheetEntriesController < Api::V1::BaseController
+  skip_before_action :verify_authenticity_token
+
   def index
     sort_by_project = ActiveModel::Type::Boolean.new.cast(params[:sort_by_project])
 
@@ -49,7 +51,7 @@ class Api::V1::TimesheetEntriesController < Api::V1::BaseController
   private
 
   def entry_params
-    params.require(:entry).permit(
+    params.require(:timesheet_entry).permit(
       :date,
       :client_name,
       :project_name,
