@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Container, Col, Form } from 'react-bootstrap';
 import axios from 'axios';
 
-export default function NewEntry() {
+export default function NewEntry(props) {
   const [clientName, setClientName] = useState('');
   const [projectName, setProjectName] = useState('');
   const [projectCode, setProjectCode] = useState('');
@@ -61,7 +61,7 @@ export default function NewEntry() {
        billable_rate: billableRate
       })
       .then(function (response) {
-        console.log(response);
+        props.handleNewEntry(response);
       })
       .catch(function (error) {
         console.log(error);
@@ -101,7 +101,7 @@ export default function NewEntry() {
             </Col>
           </Form.Row>
           <Form.Row>
-            <Col md={{span: 2, offset: 3}}>
+            <Col md={{span: 2, offset: 10}}>
               <Button type="submit">
                 Submit Entry
               </Button>

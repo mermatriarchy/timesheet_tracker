@@ -9,6 +9,7 @@ export default function App() {
   const [entries, setEntries] = useState([]);
   const [totalHours, setTotalHours] = useState(0);
   const [totalBillableAmount, setTotalBillableAmount] = useState(0);
+  const [checkEntries, setCheckEntries] = useState(false);
   const [error, setErrorState] = useState(false);
   
   useEffect(() => {
@@ -19,6 +20,7 @@ export default function App() {
         setEntries(response.data.entries);
         setTotalHours(response.data['grand_totals']['total_hours']);
         setTotalBillableAmount(response.data['grand_totals']['total_billable_amount'])
+        setCheckEntries(false);
       } catch (error) {
         console.log(error);
         setErrorState(true);
@@ -26,7 +28,11 @@ export default function App() {
 
     };
     fetchData();
-  }, []);
+  }, [checkEntries]);
+
+  const handleNewEntry = () => {
+    setCheckEntries(true);
+  }
 
   const formattedBillableAmount = new Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(totalBillableAmount);
 
@@ -43,7 +49,7 @@ export default function App() {
           </Row>
           <TimesheetTable entries={entries}/>
           <Row>
-            <NewEntry/>
+            <NewEntry handleNewEntry={handleNewEntry}/>
           </Row>
           </>
         )}
