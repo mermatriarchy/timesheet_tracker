@@ -1,8 +1,33 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Form, Col } from 'react-bootstrap';
 
 export default function NewEntry(props) {
   return(
-      <Container>Hey a New Entry Form</Container>  
+      <Container>
+        <Form>
+          <Form.Row>
+            <Col>
+              <Form.Control placeholder="Client name" />
+            </Col>
+            <Col>
+              <Form.Control placeholder="Project name" />
+            </Col>
+            <Col>
+              <Form.Control placeholder="Project code" />
+            </Col>
+          </Form.Row>
+         <Form.Row>
+            <Col>
+              <Form.Control placeholder="Contributor first name" />
+            </Col>
+            <Col>
+              <Form.Control placeholder="Contibutor last name" />
+            </Col>
+            <Col>
+              <Form.Control placeholder="Billable rate" />
+            </Col>
+          </Form.Row>
+        </Form>
+      </Container>  
   )
 }
