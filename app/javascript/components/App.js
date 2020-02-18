@@ -3,7 +3,7 @@ import TimesheetTable from './TimesheetTable';
 import NewEntry from './NewEntry';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Container, Col, Row } from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
 
 export default function App() {
   const [entries, setEntries] = useState([]);
@@ -32,12 +32,12 @@ export default function App() {
     <Container>
         <h1>Timesheet Tracker</h1>
         { error ? (
-            <div>We're sorry, an error occurred while loading the timesheet.</div>
+          <div>We're sorry, an error occurred while loading the timesheet.</div>
         ) : (
           <>
           <Row>
-            <Col>Hours Tracked<br/>{totalHours}</Col>
-            <Col>Billable Amount<br/>{totalBillableAmount}</Col>
+            <Col><h2>Hours Tracked<br/>{totalHours}</h2></Col>
+            <Col><h2>Billable Amount<br/>{totalBillableAmount}</h2></Col>
           </Row>
           <TimesheetTable entries={entries}/>
           <Row>

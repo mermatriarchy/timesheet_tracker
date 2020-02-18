@@ -3,7 +3,7 @@ import TimesheetEntry from './TimesheetEntry';
 import { Table } from 'react-bootstrap';
 
 export default function TimesheetTable(props) {
-  
+  console.log(props);
   return(
     <Table striped bordered hover>
       <thead>

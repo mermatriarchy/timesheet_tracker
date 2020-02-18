@@ -1,9 +1,10 @@
 import React from 'react';
-import { Container, Form, Col } from 'react-bootstrap';
+import { Container, Col, Form, Row } from 'react-bootstrap';
 
 export default function NewEntry(props) {
   return(
       <Container>
+        <h2>Add New Timesheet Entry</h2>
         <Form>
           <Form.Row>
             <Col>
