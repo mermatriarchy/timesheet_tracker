@@ -47,7 +47,6 @@ describe Api::V1::TimesheetEntriesController, type: :controller do
 
     context 'when sort by project is true' do
       let!(:sort_by_project) { true }
-      #let!(:project_keys) {'id','project_name','project_code','client_name','billable','billable_amount','total_project_hours'}
 
       before {get '/api/v1/timesheet_entries?sort_by_project=true'}
       
@@ -58,6 +57,7 @@ describe Api::V1::TimesheetEntriesController, type: :controller do
       it 'returns status code 200' do
         expect(response).to have_http_status(:success)
       end
+      # might need to add a test for rounded total project hrs/poroject billable amount?
     end
   end
 

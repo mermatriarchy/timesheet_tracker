@@ -11,7 +11,8 @@ export default function App() {
   const [totalBillableAmount, setTotalBillableAmount] = useState(0);
   const [checkEntries, setCheckEntries] = useState(false);
   const [error, setErrorState] = useState(false);
-  
+  // I ended up using a functioncal component at the top-level because
+  // being able to hook into useEffect made it so I had to write less code
   useEffect(() => {
     const fetchData = async () => {
       const apiUrl = '/api/v1/timesheet_entries?sort_by_project=true';
