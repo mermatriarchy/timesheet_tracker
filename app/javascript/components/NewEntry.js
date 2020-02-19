@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Col, Form } from 'react-bootstrap';
+import { Button, Container, Col, Form , Row, Toast} from 'react-bootstrap';
 import axios from 'axios';
 
 class NewEntry extends React.Component {
@@ -14,7 +14,12 @@ class NewEntry extends React.Component {
       contribLastName: '',
       hours: 0,
       billableRate: 0,
+      showSuccesNotice: false
     }
+  }
+
+  toggleShowNotice = () => {
+    this.setState((state, props) => ({ showSuccesNotice: !state }));
   }
 
   handleUserInput = (event) => {
@@ -41,15 +46,18 @@ class NewEntry extends React.Component {
        billable_rate: this.state.billableRate
       })
       .then(function (response) {
+        self.setState((state, props) => ({ showSuccesNotice: true }));
         self.props.handleNewEntry(response);
       })
       .catch(function (error) {
+        alert("We're sorry, an error occurred while submitting your form. Please review your information and try again.\n\n"
+              + error);
         console.log(error);
       });
   }
 
   render(){
-    const { clientName, projectName, projectCode, date, contribFirstName, contribLastName, hours, billableRate} = this.state;
+    const { clientName, projectName, projectCode, date, contribFirstName, contribLastName, hours, billableRate, showSuccesNotice } = this.state;
     return(
         <Container>
           <h2>Add New Timesheet Entry</h2>
@@ -101,7 +109,19 @@ class NewEntry extends React.Component {
               </Col>
             </Form.Row>
           </Form>
-        </Container>  
+          <div>
+            <Row className="toast-parent">
+              <Col className="toast-child">
+                <Toast show={showSuccesNotice} onClose={this.toggleShowNotice} style={{backgroundColor: '#ffcd2b'}}>
+                  <Toast.Header>
+                  <strong className="mr-auto">Success!</strong>
+                  </Toast.Header>
+                  <Toast.Body>Entry for {clientName}'s {projectName} has been added to the timesheet.</Toast.Body>
+                </Toast>
+              </Col>
+            </Row>
+          </div>
+      </Container>  
     )
   }
 }

@@ -26,3 +26,14 @@ th {
 .grey-text {
   color: #999;
 }
+
+.toast-parent{
+  position: relative;
+  min-height: 100px;
+}
+
+.toast-child {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
