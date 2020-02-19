@@ -4,14 +4,14 @@ import { Table } from 'react-bootstrap';
 
 export default function TimesheetTable(props) {
   return(
-    <Table striped bordered hover>
+    <Table hover>
       <thead>
         <tr>
           <th>Name</th>
           <th>Client</th>
-          <th>Hours</th>
-          <th>Billable Hours</th>
-          <th>Billable Amount</th>
+          <th className="right">Hours</th>
+          <th className="right">Billable Hours</th>
+          <th className="right">Billable Amount</th>
         </tr>
       </thead>
       <tbody>

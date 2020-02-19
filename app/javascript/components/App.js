@@ -43,9 +43,19 @@ export default function App() {
           <div>We're sorry, an error occurred while loading the timesheet.</div>
         ) : (
           <>
-          <Row>
-            <Col><h2>Hours Tracked<br/>{totalHours}</h2></Col>
-            <Col><h2>Billable Amount<br/>{formattedBillableAmount}</h2></Col>
+          <Row className="totals-header">
+            <Col>
+              <h2>
+                <span className="header-small grey-text">Hours Tracked</span>
+                <br/>{totalHours}
+              </h2>
+            </Col>
+            <Col>
+              <h2 className="right">
+                <span className="header-small grey-text">Billable Amount</span>
+                <br/>{formattedBillableAmount}
+              </h2>
+            </Col>
           </Row>
           <TimesheetTable entries={entries}/>
           <Row>

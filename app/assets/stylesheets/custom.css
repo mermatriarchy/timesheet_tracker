@@ -1,0 +1,28 @@
+.totals-header{
+  margin-bottom: 3rem;
+}
+
+.header-small {
+ font-size: 1.2rem;
+}
+
+.right {
+  text-align: right;
+}
+
+thead{
+  background: rgb(233,233,233);
+  background: linear-gradient(0deg, rgba(233,233,233,1) 0%, rgba(255,255,255,1) 100%);
+}
+
+th {
+  border: 2px solid #dee2e6;
+}
+
+.blue-text {
+  color: #225cbd;
+}
+
+.grey-text {
+  color: #999;
+}

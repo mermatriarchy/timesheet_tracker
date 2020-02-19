@@ -5,11 +5,13 @@ export default function TimesheetEntry(props) {
 
   return(
     <tr>
-      <td>{props.entry.project_name}</td>
-      <td>{props.entry.client_name}</td>
-      <td>{props.entry.total_project_hours}</td>
-      <td>{(props.entry.billable ? (props.entry.total_project_hours + ' (100%)') : '0 (0%)')}</td>
-      <td>{props.entry.billable ? formattedBillableAmount : '—'}</td>
+      <td className="blue-text">{props.entry.project_name}</td>
+      <td className="blue-text">{props.entry.client_name}</td>
+      <td className="right blue-text">{props.entry.total_project_hours}</td>
+      <td className="right">{ props.entry.billable ? props.entry.total_project_hours : '0 '}
+                            <span className="grey-text">{(props.entry.billable ? ' (100%)' : '(0%)')}</span>
+                            </td>
+      <td className="right">{props.entry.billable ? formattedBillableAmount : '—'}</td>
     </tr>
   )
 }
