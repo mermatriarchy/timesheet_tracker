@@ -5,13 +5,13 @@ A basic form for recording timesheet entries & viewing project totals built with
 These instructions assume macOs as the operating system & that a user has React & Ruby on Rails installed.
 Download/pull the folder down from the repo and run:<br>
 `bundle install`<br>
-You might need to run<br>
+You might need to run:<br>
 `yarn install --check-files`<br>
 before<br>
 `rake db:schema:load db:seed`<br>
 To see the app running, run:<br>
 `rails s` or `rails server`<br>
-from the root directory and open a browser tab at<br>
+from the root directory and open a browser tab at:<br>
 `localhost:3000`<br>
 (or wherever you default port runs)
 
@@ -21,9 +21,7 @@ For front-end tests run:<br>
 `yarn test`
 
 ## Notes, Process & Scalability
-I used Ruby on Rails & React because they're the libraries/frameworks I'm most comfortable using & have the most experience with. If this app were to grow in size & complexity, I would've set up my database tables a bit differently. Inititally, I was planning on setting them up like this:
-
-But decided to keep things simple because I wanted to be able to build an app with fuller test coverage. I figured that introducing complexity would require writing more tests, but I wanted to be able to write test coverage within the time I was given, so I opted for a single table. 
+I used Ruby on Rails & React because they're the libraries/frameworks I'm most comfortable using & have the most experience with. If this app were to grow in size & complexity, I would've set up my database tables a bit differently. Inititally, I was planning on setting them up [like this](https://drive.google.com/file/d/1swzlVIlYwa9kfIIQGNXQjI65CzsynPGF/view?usp=sharing), but decided to keep things simple because I wanted to be able to build an app with fuller test coverage. I figured that introducing complexity would require writing more tests, but I wanted to be able to write test coverage within the time I was given, so I opted for a single table. 
 
 Additionally, I'd make some of the calculations more dynamic. For this app, a project was either billable or not, but I'd like to be able to calculate the percentage billable/not billable instead of just rendering 100% or 0% billable in the table. I'd also add some rules/validations in the controller or in the input form to make sure that a user couldn't enter an hourly rate for projects that had already been marked as not billable. (Having relational tables with reference columns would also help with this.)
 
