@@ -13,6 +13,7 @@ class NewEntry extends React.Component {
       contribFirstName: '',
       contribLastName: '',
       hours: 0,
+      billable: true,
       billableRate: 0,
       showSuccesNotice: false
     }
@@ -32,7 +33,7 @@ class NewEntry extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    let self = this;
+    let self = this; 
 
     axios.post('/api/v1/timesheet_entries', {
        client_name: this.state.clientName,
