@@ -7,7 +7,7 @@ class Api::V1::TimesheetEntriesController < Api::V1::BaseController
     if sort_by_project
       entries = TimesheetEntry.select(:client_name, :project_name, :billable, "SUM(billable_rate * hours) AS billable_amount", "SUM(hours) AS total_project_hours")
                               .group(:project_name)
-      
+
       entries.each do |entry|
         entry["billable_amount"] = (entry["billable_amount"]).round(2)
         entry["total_project_hours"] = (entry["total_project_hours"]).round(2)
@@ -26,12 +26,15 @@ class Api::V1::TimesheetEntriesController < Api::V1::BaseController
     respond_with data, json: data
   end
   
-  def show
-    respond_with TimesheetEntry.find(params[:id])
-  end
-  
   def create
     respond_with :api, :v1, TimesheetEntry.create(entry_params)
+  end
+
+=begin
+  # I was planning on adding some extras if I had time
+
+  def show
+    respond_with TimesheetEntry.find(params[:id])
   end
 
   def destroy
@@ -43,10 +46,7 @@ class Api::V1::TimesheetEntriesController < Api::V1::BaseController
     entry.update_attributes(entry_params)
     respond_with entry, json: entry
   end
-
-  def formatted_date(val)
-    date = Date.strptime(val, "%m/%d/%y") if val.present?
-  end
+=end
 
   private
 

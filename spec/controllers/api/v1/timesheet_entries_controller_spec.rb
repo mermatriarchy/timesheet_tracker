@@ -3,45 +3,60 @@ require 'rails_helper'
 describe Api::V1::TimesheetEntriesController, type: :controller do
 
   describe "GET /api/v1/timesheet_entries", :type => :request do
-    let!(:entries) {FactoryBot.create_list(:timesheet_entry, 20)}
+    let!(:single_entries) {FactoryBot.create_list(:timesheet_entry, 20)}
     let!(:hours_array) {[]}
-    let!(:cost_array) {[]}
+    let!(:costs_array) {[]}
 
     before do
-      entries.each do |entry|
+      single_entries.each do |entry|
         hours_array.push(entry['hours'])
-        cost_array.push(entry['billable_rate'])
+        costs_array.push(entry['billable_rate'])
       end
-      hours_array.inject(:+)
-      cost_array.inject(:+)
     end
-    
-    let!(:grand_totals) {{'total_billable_amount' => hours_array,
-                          'total_hours' =>  hours_array}}
 
-    context 'when sort by project is false' do
+    let!(:total_hours){ (hours_array.inject(:+)).round(2) }
+    let!(:total_costs){ (costs_array.inject(:+)).round(2) }
+    let!(:grand_totals) {{total_billable_amount: total_costs,
+                          total_hours: total_hours}}
+
+    context 'when sort by project is false or null' do
       let!(:sort_by_project) { false }
-      let!(:timesheet_entries) {{'grand_totals' => grand_totals, 
-                                 'sort_by_project' => sort_by_project, 
-                                 'entries' => entries}}
-      before {get '/api/v1/timesheet_entries'}  
+      let!(:timesheet_entries) {{grand_totals: grand_totals, 
+                                 sort_by_project: sort_by_project, 
+                                 entries: single_entries}}
+
+      before {get '/api/v1/timesheet_entries'}
+
+      it 'returns the grand totals object with hours and amount billed' do
+        expect(JSON.parse(response.body)['grand_totals'].size).to eq(2)
+      end
+
+      it 'returns the correct numbers for total hours and amount billed' do
+        expect(JSON.parse(response.body)['grand_totals']['total_hours']).to eq(total_hours)
+        expect(JSON.parse(response.body)['grand_totals']['total_billable_amount']).to eq(total_costs)
+      end
       
       it 'returns all questions' do
-        expect(JSON.parse(response.body).size).to eq(3)
         expect(JSON.parse(response.body)['entries'].size).to eq(20)
       end  
+
       it 'returns status code 200' do
         expect(response).to have_http_status(:success)
       end
     end
 
     context 'when sort by project is true' do
-      before {get '/api/v1/timesheet_entries'}
+      let!(:sort_by_project) { true }
+      #let!(:project_keys) {'id','project_name','project_code','client_name','billable','billable_amount','total_project_hours'}
+
+      before {get '/api/v1/timesheet_entries?sort_by_project=true'}
       
       it 'returns questions sorted by project' do
+        expect(JSON.parse(response.body)['entries'][0].size).to eq(6)
       end
 
       it 'returns status code 200' do
+        expect(response).to have_http_status(:success)
       end
     end
   end
@@ -53,18 +68,23 @@ describe Api::V1::TimesheetEntriesController, type: :controller do
                                                     project_code: "B5V004", hours: 4.2, billable: true, contributor_first_name: "Alex",
                                                     contributor_last_name: "McCarren", billable_rate: 80 }}
       end  
+
       it 'returns the entry\'s date' do
         expect(JSON.parse(response.body)['date']).to eq('2020-01-05')
       end  
+
       it 'returns the entry\'s client' do
         expect(JSON.parse(response.body)['client_name']).to eq('Smoothie Co')
       end  
+
       it 'returns the entry\'s project name' do
         expect(JSON.parse(response.body)['project_name']).to eq('Website Redesign')
       end  
+
       it 'returns the entry\'s project code' do
         expect(JSON.parse(response.body)['project_code']).to eq('B5V004')
       end  
+
       it 'returns the entry\'s hours' do
         expect(JSON.parse(response.body)['hours']).to eq(4.2)
       end
@@ -72,6 +92,7 @@ describe Api::V1::TimesheetEntriesController, type: :controller do
       it 'returns the entry\'s billable status' do
         expect(JSON.parse(response.body)['billable']).to eq(true)
       end  
+
       it 'returns the entry\'s contributor name' do
         expect(JSON.parse(response.body)['contributor_first_name']).to eq('Alex')
         expect(JSON.parse(response.body)['contributor_last_name']).to eq('McCarren')
@@ -98,6 +119,8 @@ describe Api::V1::TimesheetEntriesController, type: :controller do
       end
     end
   end
+=begin
+ # I started writing tests for the extras, but didn't have time to connect it to the front-end
 
   describe "PUT /api/v1/timesheet_entries/:id" do
     before(:each) do
@@ -114,4 +137,5 @@ describe Api::V1::TimesheetEntriesController, type: :controller do
       expect(TimesheetEntry.find(@entry.id).hours).to eq(@new_hours)
     end
   end
+=end
 end
