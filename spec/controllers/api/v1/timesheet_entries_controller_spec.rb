@@ -3,20 +3,53 @@ require 'rails_helper'
 describe Api::V1::TimesheetEntriesController, type: :controller do
 
   describe "GET /api/v1/timesheet_entries", :type => :request do
-    let!(:timesheet_entries) {FactoryBot.create_list(:timesheet_entry, 20)}
-    before {get '/api/v1/timesheet_entries'}  
-    it 'returns all questions' do
-      expect(JSON.parse(response.body).size).to eq(20)
-    end  
-    it 'returns status code 200' do
-      expect(response).to have_http_status(:success)
+    let!(:entries) {FactoryBot.create_list(:timesheet_entry, 20)}
+    let!(:hours_array) {[]}
+    let!(:cost_array) {[]}
+
+    before do
+      entries.each do |entry|
+        hours_array.push(entry['hours'])
+        cost_array.push(entry['billable_rate'])
+      end
+      hours_array.inject(:+)
+      cost_array.inject(:+)
+    end
+    
+    let!(:grand_totals) {{'total_billable_amount' => hours_array,
+                          'total_hours' =>  hours_array}}
+
+    context 'when sort by project is false' do
+      let!(:sort_by_project) { false }
+      let!(:timesheet_entries) {{'grand_totals' => grand_totals, 
+                                 'sort_by_project' => sort_by_project, 
+                                 'entries' => entries}}
+      before {get '/api/v1/timesheet_entries'}  
+      
+      it 'returns all questions' do
+        expect(JSON.parse(response.body).size).to eq(3)
+        expect(JSON.parse(response.body)['entries'].size).to eq(20)
+      end  
+      it 'returns status code 200' do
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'when sort by project is true' do
+      before {get '/api/v1/timesheet_entries'}
+      
+      it 'returns questions sorted by project' do
+      end
+
+      it 'returns status code 200' do
+      end
     end
   end
 
   describe "POST /api/v1/timesheet_entries", :type => :request do
     context 'when the request is valid' do
       before do
-        post '/api/v1/timesheet_entries', params: { entry: { date: "2020/01/05", client_name: "Smoothie Co", project_name: "Website Redesign",
+        post '/api/v1/timesheet_entries', params: { timesheet_entry: { date: "2020/01/05", client_name: "Smoothie Co", project_name: "Website Redesign",
                                                     project_code: "B5V004", hours: 4.2, billable: true, contributor_first_name: "Alex",
                                                     contributor_last_name: "McCarren", billable_rate: 80 }}
       end  
@@ -55,7 +88,7 @@ describe Api::V1::TimesheetEntriesController, type: :controller do
 
     context 'when the request is invalid' do
       before do
-          post '/api/v1/timesheet_entries', params: { entry: { date: "2020/01/05", client_name: '', project_name: "Website Redesign",
+          post '/api/v1/timesheet_entries', params: { timesheet_entry: { date: "2020/01/05", client_name: '', project_name: "Website Redesign",
                                                       project_code: "B5V004", hours: 4.2, billable: true, contributor_first_name: "Alex",
                                                       contributor_last_name: "McCarren", billable_rate: 80 }}
       end  
@@ -70,7 +103,7 @@ describe Api::V1::TimesheetEntriesController, type: :controller do
     before(:each) do
         @entry = create(:timesheet_entry)
         @new_hours = Faker::Number.decimal(l_digits: 2)
-        put 'update', params: { id: @entry.id, entry: { hours: @new_hours} }
+        put 'update', params: { timesheet_entry: { id: @entry.id, entry: { hours: @new_hours} }}
     end
 
     it 'responds with a success status' do
